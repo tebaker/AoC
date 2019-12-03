@@ -21,6 +21,20 @@
 # Importing math for floor function
 import math
 
+# Dividing mass by three and flooring the result, subtrasting that total from 2 and returning the result
+def calcFuel(mass):
+    return math.floor(int(mass) / 3) - 2
+
+# The folloing function will keep calling itself until the resulting number is <= 0.
+# Dividing mass by three and flooring the result, subtrasting that total from 2 and returning the result
+def calcFuelRecur(mass):
+    # If calculated fuel result is less than or equal to 0, no fule is needed, return 0
+    if math.floor(int(mass) / 3) - 2 <= 0:
+        return 0
+    # If the calculated fuel result is greater than 0, must go a level deeper
+    else:
+        return int(mass) + calcFuelRecur(math.floor(int(mass) / 3) - 2)
+
 # Holding total fule costs
 totFuleCost = 0
 
@@ -29,9 +43,7 @@ f = open("input.txt", "r")
 
 # Looping through every line of the file
 for line in f:
-    # Converting line from string to int, dividing line by three and taking the floor of the result,
-    # subtrasting total from 2 and total back to totFuleCost
-    totFuleCost += math.floor(int(line) / 3) - 2
+    totFuleCost += calcFuelRecur(line)
 
 # Printing total fule costs
 print(totFuleCost)
