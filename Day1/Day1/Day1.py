@@ -33,7 +33,7 @@ def calcFuelRecur(mass):
         return 0
     # If the calculated fuel result is greater than 0, must go a level deeper
     else:
-        return int(mass) + calcFuelRecur(math.floor(int(mass) / 3) - 2)
+        return math.floor(int(mass) / 3) - 2 + calcFuelRecur(math.floor(int(mass) / 3) - 2)
 
 # Holding total fule costs
 totFuleCost = 0
