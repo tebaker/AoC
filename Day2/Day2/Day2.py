@@ -36,18 +36,18 @@ while i < len(opcodeArray):
     oc = int(opcodeArray[i])
 
     # Getting locations of value 1 and value 2
-    locVal1 = int(opcodeArray[i+1])
-    locVal2 = int(opcodeArray[i+2])
+    loc1 = int(opcodeArray[i+1])
+    loc2 = int(opcodeArray[i+2])
 
     # Values for calculation
-    val1 = int(opcodeArray[locVal1])
-    val2 = int(opcodeArray[locVal2])
+    noun = int(opcodeArray[loc1])
+    verb = int(opcodeArray[loc2])
 
     # Getting storage location of result
     locResult = int(opcodeArray[i+3])
 
 
-    print(oc, locVal1, locVal2, locResult)
+    print(oc, loc1, loc2, locResult)
 
 
     # Holding result of calculation
@@ -55,10 +55,10 @@ while i < len(opcodeArray):
 
     # If opcode = 1, add values
     if oc == 1:
-        result = val1 + val2
+        result = noun + verb
     # If opcode = 2, multiply values
     elif oc == 2:
-        result = val1 * val2
+        result = noun * verb
     # If not 1, or 2... ERROR
     elif oc == 99:
         print("Opcode 99: Haulting program")
@@ -69,6 +69,11 @@ while i < len(opcodeArray):
     # Storing result back into array at location of opcode 3
     opcodeArray[locResult] = result
 
+    # Checking for result of 19690720. If found, need to output noun and verb that produced that output
+    if result == 19690720:
+        print("Found result 19690720.")
+        print("Noun: ", noun, "Verb: ", verb)
+
     # Incrementing index by 4 to get next set of opcodes
     i += 4
 
@@ -77,3 +82,4 @@ print("Location at element 0: ", opcodeArray[0])
 
 # First guess: 172
 # Second guess: 613553
+# Third guess: 10566835 CORRECT
