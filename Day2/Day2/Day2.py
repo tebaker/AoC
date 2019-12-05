@@ -23,27 +23,32 @@ f = open('input.txt', 'r')
 # Splitting file by ',', storing result in opcode array
 opcodeArray = f.read().split(',')
 
+# Closing file
+f.close()
+
 # Index i = 0
 i = 0
 
 # Looping through all the opcodes
 while i < len(opcodeArray):
+
     # Storing opcode
     oc = int(opcodeArray[i])
 
-    print("oc: ", oc)
+    # Getting locations of value 1 and value 2
+    locVal1 = int(opcodeArray[i+1])
+    locVal2 = int(opcodeArray[i+2])
 
-    # Getting values of opsitions at opcodes 1 and 2
-    val1 = int(opcodeArray[i+1])
-    val2 = int(opcodeArray[i+2])
-
-    print("val1: ", val1)
-    print("val2: ", val2)
+    # Values for calculation
+    val1 = int(opcodeArray[locVal1])
+    val2 = int(opcodeArray[locVal2])
 
     # Getting storage location of result
-    loc = int(opcodeArray[i+3])
+    locResult = int(opcodeArray[i+3])
 
-    print("loc: ", loc)
+
+    print(oc, locVal1, locVal2, locResult)
+
 
     # Holding result of calculation
     result = 0
@@ -62,7 +67,7 @@ while i < len(opcodeArray):
         print("ERROR: INVALID OPCODE")
 
     # Storing result back into array at location of opcode 3
-    opcodeArray[loc] = result
+    opcodeArray[locResult] = result
 
     # Incrementing index by 4 to get next set of opcodes
     i += 4
@@ -70,7 +75,5 @@ while i < len(opcodeArray):
 # Printing value at position 0 for puzzle
 print("Location at element 0: ", opcodeArray[0])
 
-# Closing file
-f.close()
-
 # First guess: 172
+# Second guess: 613553
