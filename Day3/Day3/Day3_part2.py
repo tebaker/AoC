@@ -38,7 +38,7 @@ w2RawDataArray = splitHold[1].split(',')
 lastXCoord = 0
 lastYCoord = 0
 
-# looping through the raw data for wire 1. Setting every x, y coord what the wire passes
+# looping through the raw data for wire 1
 for i in w1RawDataArray:
     # Direction is first character of raw string data. Either U, D, L, R
     dir = i[0]
@@ -72,7 +72,7 @@ lastYCoord = 0
 # Index for user output
 index = 0
 
-# Holding the total step count at each overlap for wire 2
+# Holding total number of steps made before first overlap
 w2TotalSteps = 0
 
 # Looping through the raw data for wire 2
@@ -82,8 +82,8 @@ for i in w2RawDataArray:
     # Distance data is an int; everything that's left. [1:] -> takes index 1 to end
     dist = int(i[1:])
 
-    # Printing and incrementing value of string for user output
     print("Evaluating: ", index, "of", str(len(w2RawDataArray)))
+
     index += 1
 
     # Switching on direction
@@ -96,9 +96,10 @@ for i in w2RawDataArray:
             # Checking coords against wire 1 coord list. If true, add to overlap list
             if (lastXCoord, lastYCoord) in w1CoordDict:
                 #print("Adding:", lastXCoord, lastYCoord)
-                # If overlap data at x, y is not already in the dictionary, add data to dict. If not, skip
-                if (lastXCoord, lastYCoord) not in w2OverlapDict:
-                    w2OverlapDict[lastXCoord, lastYCoord] = w2TotalSteps
+                # Writing overlap data to file
+                w2OverlapDict[lastXCoord, lastYCoord] = True
+
+                break
     elif dir == 'D':
         for j in range(0, dist):
             lastYCoord -= 1
@@ -108,9 +109,10 @@ for i in w2RawDataArray:
             # Checking coords against wire 1 coord list. If true, add to overlap list
             if (lastXCoord, lastYCoord) in w1CoordDict:
                 #print("Adding:", lastXCoord, lastYCoord)
-                # If overlap data at x, y is not already in the dictionary, add data to dict. If not, skip
-                if (lastXCoord, lastYCoord) not in w2OverlapDict:
-                    w2OverlapDict[lastXCoord, lastYCoord] = w2TotalSteps
+                # Writing overlap data to file
+                w2OverlapDict[lastXCoord, lastYCoord] = True
+
+                break
     elif dir == 'L':
         for j in range(0, dist):
             lastXCoord -= 1
@@ -120,9 +122,10 @@ for i in w2RawDataArray:
             # Checking coords against wire 1 coord list. If true, add to overlap list
             if (lastXCoord, lastYCoord) in w1CoordDict:
                 #print("Adding:", lastXCoord, lastYCoord)
-                # If overlap data at x, y is not already in the dictionary, add data to dict. If not, skip
-                if (lastXCoord, lastYCoord) not in w2OverlapDict:
-                    w2OverlapDict[lastXCoord, lastYCoord] = w2TotalSteps
+                # Writing overlap data to file
+                w2OverlapDict[lastXCoord, lastYCoord] = True
+
+                break
     elif dir == 'R':
         for j in range(0, dist):
             lastXCoord += 1
@@ -132,105 +135,39 @@ for i in w2RawDataArray:
             # Checking coords against wire 1 coord list. If true, add to overlap list
             if (lastXCoord, lastYCoord) in w1CoordDict:
                 #print("Adding:", lastXCoord, lastYCoord)
-                # If overlap data at x, y is not already in the dictionary, add data to dict. If not, skip
-                if (lastXCoord, lastYCoord) not in w2OverlapDict:
-                    w2OverlapDict[lastXCoord, lastYCoord] = w2TotalSteps
-    else:
-        print("ERROR: INVALID DIRECTION")
+                # Writing overlap data to file
+                w2OverlapDict[lastXCoord, lastYCoord] = True
 
-
-print("Complete Overlap Data:")
-print(w2OverlapDict)
-
-# Holding new x, y for finding w1 overlap
-w1OverlapCheckX = 0
-w1OverlapCheckY = 0
-
-# Holding total number of steps made before first overlap
-w1TotalSteps = 0
-overlapFound = False
-
-# Rerunning the loop for wire 1 until a path leads to the first overlap x, y found
-for i in w1RawDataArray:
-    # Direction is first character of raw string data. Either U, D, L, R
-    dir = i[0]
-    # Distance data is an int; everything that's left. [1:] -> takes index 1 to end
-    dist = int(i[1:])
-
-    # Switching on direction
-    if dir == 'U':
-        for j in range(0, dist):
-            w1OverlapCheckY += 1
-            w1TotalSteps += 1
-            if w1OverlapCheckX == lastXCoord and w1OverlapCheckY == lastYCoord:
-                # Overlap Found, beaking out of all loops
-                overlapFound = True
-                break
-    elif dir == 'D':
-        for j in range(0, dist):
-            w1OverlapCheckY -= 1
-            w1TotalSteps += 1
-            if w1OverlapCheckX == lastXCoord and w1OverlapCheckY == lastYCoord:
-                # Overlap Found, beaking out of all loops
-                overlapFound = True
-                break
-    elif dir == 'L':
-        for j in range(0, dist):
-            w1OverlapCheckX -= 1
-            w1TotalSteps += 1
-            if w1OverlapCheckX == lastXCoord and w1OverlapCheckY == lastYCoord:
-                # Overlap Found, beaking out of all loops
-                overlapFound = True
-                break
-    elif dir == 'R':
-        for j in range(0, dist):
-            w1OverlapCheckX += 1
-            w1TotalSteps += 1
-            if w1OverlapCheckX == lastXCoord and w1OverlapCheckY == lastYCoord:
-                # Overlap Found, beaking out of all loops
-                overlapFound = True
                 break
     else:
         print("ERROR: INVALID DIRECTION")
 
-    # Breaking out of while if overlap found
-    if overlapFound:
-        print("Overlap found for wire 1 wire 2 crossover")
-        break
 
-# Printing wire 1 overlap results
-print("w1TotalSteps:", w1TotalSteps)
-print("Found at (", w1OverlapCheckX, ",", w1OverlapCheckY, ")")
+print("w2TotalSteps:", w2TotalSteps)
+print("Found at (", lastXCoord, ",", lastYCoord, ")")
+
 
 # Holding the lowest overlapped x, y value
-#lowestOverlappedX = 0
-#lowestOverlappedY = 0
+lowestOverlappedX = 0
+lowestOverlappedY = 0
 
 # Holding lowest overlapped manhattan distance
-#lowestManhattanDist = 1000000
+lowestManhattanDist = 1000000
 
 # Checking against all the overlaps for lowest Manhattan dist
-#for overlap in w2OverlapDict:
-#    xCoord = abs(overlap[0])
-#    yCoord = abs(overlap[1])
+for overlap in w2OverlapDict:
+    xCoord = abs(overlap[0])
+    yCoord = abs(overlap[1])
 
-#    manhattanDist = xCoord + yCoord
+    manhattanDist = xCoord + yCoord
 
-#    if manhattanDist < lowestManhattanDist:
-#        # Found new lowest manhattan dist. Setting new lowest dist and new lowest x, y
-#        lowestManhattanDist = manhattanDist
-#        lowestOverlappedX = xCoord
-#        lowestOverlappedY = yCoord
+    if manhattanDist < lowestManhattanDist:
+        # Found new lowest manhattan dist. Setting new lowest dist and new lowest x, y
+        lowestManhattanDist = manhattanDist
+        lowestOverlappedX = xCoord
+        lowestOverlappedY = yCoord
 
-#        print("Manhattan Dist:", lowestManhattanDist, "lowest x", lowestOverlappedX, "lowest y", lowestOverlappedY)
+        print("Manhattan Dist:", lowestManhattanDist, "lowest x", lowestOverlappedX, "lowest y", lowestOverlappedY)
 
 # Answer 1: Manhattan Dist: 1 lowest x 1 lowest y 0
 # Answer 2: Manhattan Dist: 721 lowest x 571 lowest y 150 CORRECT
-
-# Part 2:
-#   w2TotalSteps: 1188
-#   Found at ( -1095 , -93 )
-#   w1TotalSteps: 94900
-#   Found at ( -1095 , -93 )
-
-# Part 2, answer 1: 94900 + 1188 = 96088

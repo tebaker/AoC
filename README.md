@@ -1,3 +1,3 @@
 # AoC2019
-# Current :star: Count: 3
+# Star Count: :star: :star: :star: :star: 
 Helping Santa get back before Christmas! Advent of Code 2019
