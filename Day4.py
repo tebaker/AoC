@@ -18,42 +18,85 @@
 
 #Your puzzle input is 254032-789860.
 
+# given an integer input, and the rules listed above, will find and set the current lowest value and store in currLowest array
+def findCurrLowest(inputLow):
+    # setting currLowest to puzzle input, low
+    for i in str(inputLow):
+        currLowest.append(i)
+        
+    # setting index to 0
+    index = 0
+    # setting a to left-most digit of currLowest
+    a = currLowest[index]
+    # setting a to one right of left-most digit of currLowest
+    b = currLowest[index+1]
+    
+    # finding the lowest valid number
+    while True:
+        # if b = a; digit's valid, move to next set of a, b
+        if b == a:
+            index+=1
+            a = currLowest[index]
+            b = currLowest[index+1]
+            
+        # if b > a; digit's valid, but all numbers after b need to be increased to match b. That's the new currLowest
+        if b > a:
+            index+=1
+            # setting every digit from index to end of array to b
+            for i in xrange(index, len(currLowest)):
+                currLowest[i] = b
+            # breaking out of while
+            break
+
+
+
+
 # puzzle input, low
 inputLow = 254032
 # puzzle input, high
 inputHigh = 789860
 
+# holding the current lowest number being evaluated
 currLowest = []
 
-# setting currLowest to puzzle input, low
-for i in str(inputLow):
-    currLowest.append(i)
+# holding the total number of passwords. Starting at 1 for the default case
+totNumPasswords = 1
 
-print("currLowest: ", currLowest)
+def main():
+    findCurrLowest(inputLow)
     
-# setting index to 0
-index = 0
-# setting a to left-most digit of currLowest
-a = currLowest[index]
-# setting a to one right of left-most digit of currLowest
-b = currLowest[index+1]
+    # printing found current lowest number
+    print(currLowest)
 
-# finding the lowest valid number
-while True:
-    # if b = a; digit's valid, move to next set of a, b
-    if b == a:
-        index+=1
-        a = currLowest[index]
-        b = currLowest[index+1]
-        
-    # if b > a; digit's valid, but all numbers after b need to be increased to match b. That's the new currLowest
-    if b > a:
-        index+=1
-        # setting every digit from index to end of array to b
-        for i in xrange(index, len(currLowest)):
-            currLowest[i] = b
-        # breaking out of while
-        break
-    
-# printing found current lowest number
-print(currLowest)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
