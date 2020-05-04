@@ -23,6 +23,10 @@ def findCurrLowest(inputLow):
     # setting currLowest to puzzle input, low
     for i in str(inputLow):
         currLowest.append(i)
+
+    # setting currLowest to puzzle input, low
+    for i in str(inputHigh):
+        maxValue.append(i)
         
     # setting index to 0
     index = 0
@@ -43,12 +47,52 @@ def findCurrLowest(inputLow):
         if b > a:
             index+=1
             # setting every digit from index to end of array to b
-            for i in xrange(index, len(currLowest)):
+            for i in range(index, len(currLowest)):
                 currLowest[i] = b
             # breaking out of while
             break
+    print("currLowest: ", currLowest)
 
 
+# calculate will hold the main loop that checks the numbers
+def calculate(currLowest, totNumPasswords):
+    # index is set to last element of the array
+    index = len(currLowest) - 1
+    # setting a to right-most digit of currLowest
+    a = int(currLowest[index])
+    
+    while True:
+        
+        # if a is less than 9, incr a and loop again
+        if a < 9:
+            a += 1
+            currLowest[index] = str(a)
+            totNumPasswords += 1
+
+            # if index not is far right of array, match digits
+            if index != len(currLowest) - 1:
+                for i in range(index, len(currLowest) - 1):
+                    currLowest[i] = str(a)
+                
+                # resetting index to end of array
+                index = len(currLowest) - 1
+        
+        # if a is equal to 9, and within bounds of array:
+        # set digit to the left as new a + 1 and match all digits to the right to this new number
+        elif a == 9:
+            # if index out of bounds, break out of program
+            if index - 1 < 0:
+                break
+            
+            # setting index one to the left, setting a to new array at index
+            index -= 1
+            a = int(currLowest[index])
+
+        # error check
+        else:
+            print("something went wrong")
+
+        print(currLowest)
 
 
 # puzzle input, low
@@ -58,15 +102,16 @@ inputHigh = 789860
 
 # holding the current lowest number being evaluated
 currLowest = []
+# holding the maximum value of the puzzle input
+maxValue = []
 
 # holding the total number of passwords. Starting at 1 for the default case
 totNumPasswords = 1
 
 def main():
-    findCurrLowest(inputLow)
     
-    # printing found current lowest number
-    print(currLowest)
+    findCurrLowest(inputLow)
+    calculate(currLowest, totNumPasswords)
 
 
 if __name__ == "__main__":
