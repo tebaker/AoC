@@ -1,3 +1,3 @@
-# AoC2019
+# Advent of Code!
 # :star: :star: :star: :star: 
-Helping Santa get back before Christmas! Advent of Code 2019
+Advent of Code Advent of Code Advent of Code Advent of Code Advent of Code!
